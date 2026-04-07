@@ -10,8 +10,6 @@
             --primary: #00ffcc;
             --secondary: #25D366;
             --accent: #ff3366;
-            --yt-red: #FF0000;
-            --tt-black: #010101;
             --card-bg: rgba(255, 255, 255, 0.05);
         }
 
@@ -34,18 +32,19 @@
             z-index: -1;
         }
 
-        /* Loading Screen */
-        #loading {
-            position: fixed; inset: 0; background: #000;
-            display: flex; justify-content: center; align-items: center;
-            z-index: 9999; color: var(--primary); font-weight: bold;
-            animation: fadeOut 1s ease 1.2s forwards;
+        header { text-align: center; padding: 50px 20px 10px; }
+        .logo {
+            width: 110px; height: 110px; border-radius: 50%;
+            border: 2px solid var(--primary); box-shadow: 0 0 20px var(--primary);
+            object-fit: cover;
         }
-        @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
+        
+        .owner-profile {
+            max-width: 450px; margin: 20px auto 30px; padding: 20px;
+            background: rgba(255, 255, 255, 0.03); border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+        }
 
-        @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
-        /* Floating Cart Icon */
         .cart-icon {
             position: fixed; bottom: 30px; right: 30px; background: var(--primary);
             width: 60px; height: 60px; border-radius: 50%; display: flex;
@@ -58,40 +57,6 @@
             font-size: 12px; display: flex; justify-content: center; align-items: center;
         }
 
-        /* Header & Profile Atas */
-        header { text-align: center; padding: 50px 20px 10px; }
-        .logo {
-            width: 110px; height: 110px; border-radius: 50%;
-            border: 2px solid var(--primary); box-shadow: 0 0 20px var(--primary);
-            animation: floating 3s ease-in-out infinite; object-fit: cover;
-        }
-        
-        .owner-profile {
-            max-width: 450px; margin: 20px auto 30px; padding: 20px;
-            background: rgba(255, 255, 255, 0.03); border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
-        }
-        .owner-profile h2 { margin: 0; font-size: 1.4rem; color: var(--primary); letter-spacing: 1px; }
-        .owner-profile p { margin: 5px 0 15px; font-size: 0.8rem; color: #aaa; }
-
-        .social-links { display: flex; justify-content: center; gap: 10px; }
-        .soc-btn { 
-            padding: 10px 20px; border-radius: 25px; font-size: 0.7rem; 
-            color: white; text-decoration: none; font-weight: bold; transition: 0.3s; 
-        }
-        .btn-tt { background: var(--tt-black); border: 1px solid #fff; }
-        .btn-yt { background: var(--yt-red); }
-        .soc-btn:hover { transform: scale(1.1); filter: brightness(1.2); }
-
-        /* Search Bar */
-        .search-container { max-width: 500px; margin: 0 auto 30px; padding: 0 20px; }
-        .search-input {
-            width: 100%; padding: 12px 20px; border-radius: 25px;
-            border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05);
-            color: white; outline: none; transition: 0.3s;
-        }
-
-        /* Product Grid */
         .container {
             max-width: 1100px; margin: 0 auto; padding: 0 20px 100px;
             display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;
@@ -103,11 +68,8 @@
             padding: 25px; text-align: center; transition: 0.4s;
             display: flex; flex-direction: column; justify-content: space-between;
         }
-        .card:hover { transform: translateY(-8px); border-color: var(--primary); }
-        .card h3 { margin: 0 0 10px 0; font-size: 1.2rem; }
         .price { font-size: 1.6rem; font-weight: 800; color: var(--primary); display: block; margin-bottom: 15px; }
 
-        /* Buttons */
         .btn {
             display: block; width: 100%; padding: 12px; margin: 8px 0;
             border-radius: 12px; border: none; font-weight: bold; cursor: pointer;
@@ -116,7 +78,6 @@
         .btn-add { background: var(--primary); color: #000; }
         .btn-wa { background: transparent; border: 1px solid var(--secondary); color: var(--secondary); }
 
-        /* Sidebar Cart */
         .sidebar {
             position: fixed; top: 0; right: -100%; width: 320px; height: 100%;
             background: rgba(10, 10, 10, 0.98); backdrop-filter: blur(15px);
@@ -124,13 +85,9 @@
         }
         .sidebar.active { right: 0; }
         .cart-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #333; }
-
-        footer { text-align: center; padding: 40px; color: #555; font-size: 0.8rem; }
     </style>
 </head>
 <body>
-
-    <div id="loading">⚡ MIKO STORE...</div>
 
     <div class="cart-icon" onclick="toggleCart()">
         🛒 <span class="cart-count" id="cart-count">0</span>
@@ -138,122 +95,110 @@
 
     <div class="sidebar" id="sidebar">
         <h2 style="color:var(--primary)">KERANJANG</h2>
-        <div id="cart-items" style="max-height:60vh; overflow-y:auto; margin-bottom:20px;"></div>
+        <div id="cart-items" style="max-height:50vh; overflow-y:auto; margin-bottom:20px;"></div>
         <p style="display:flex; justify-content:space-between; font-weight:bold;"><span>TOTAL:</span> <span id="cart-total">Rp 0</span></p>
-        <button class="btn btn-add" onclick="checkoutWA()">💳 CHECKOUT KE WHATSAPP</button>
+        
+        <button class="btn" style="background: white; color: black;" onclick="checkoutSekalipay()">💳 BAYAR OTOMATIS (QRIS)</button>
+        <button class="btn btn-wa" onclick="checkoutWA()">📱 HUBUNGI ADMIN (WA)</button>
         <button class="btn" style="background:#333; color:white;" onclick="toggleCart()">TUTUP</button>
     </div>
 
     <header>
         <img src="https://files.catbox.moe/vea0ax.jpg" class="logo">
         <h1>Miko Store</h1>
-        <div class="status-tag">● STATUS: SIAP MELAYANI</div>
-
         <div class="owner-profile">
             <h2>Miko Official</h2>
             <p>Admin & Owner Miko Store Digital<br>Aman • Cepat • Bergaransi</p>
-            <div class="social-links">
-                <a href="https://www.tiktok.com/@produk_jawa_102?_r=1&_t=ZS-95GMvxJ6V77" target="_blank" class="soc-btn btn-tt">TIKTOK</a>
-                <a href="https://youtube.com/@mikorandom?si=vKjqnh271C_sq0S" target="_blank" class="soc-btn btn-yt">YOUTUBE</a>
-            </div>
         </div>
     </header>
 
-    <div class="search-container">
-        <input type="text" id="search" class="search-input" placeholder="Cari produk digital..." onkeyup="filterProducts()">
-    </div>
-
     <div class="container" id="product-list"></div>
 
-    <footer>
-        <p>&copy; 2026 Miko Store. All Rights Reserved.</p>
-    </footer>
-
     <script>
+        // LINK SERVER REPLIT AGENT KAMU
+        const REPLIT_API_URL = "https://2ad8228d-4bba-42dd-9c5d-41c2abd917b1-00-1uy9348enozeg.spock.replit.dev"; 
+
         const products = [
-            { id: 1, name: "ALIGHT MOTION PRO", price: 3000, features: ["Unlock All Preset", "No Watermark", "Export HD 4K", "Garansi Full"] },
-            { id: 2, name: "CAPCUT PREMIUM", price: 4000, features: ["Semua Efek Terbuka", "No Watermark", "Fitur Pro Unlocked", "Proses Cepat"] },
-            { id: 3, name: "WINK PREMIUM", price: 4500, features: ["Kualitas Ultra HD", "Alat Edit Pro", "Tanpa Iklan", "Legal & Aman"] },
-            { id: 4, name: "CANVA PRO", price: 5500, features: ["Akses Semua Elemen", "Via Email Pribadi", "Bisa Edit Tim", "Garansi Aktif"] },
-            { id: 5, name: "VIU PREMIUM", price: 2000, features: ["Nonton Tanpa Iklan", "Kualitas Full HD", "Drama Korea Terbaru", "Legal Akun"] },
-            { id: 6, name: "YOUTUBE PREMIUM", price: 5000, features: ["Bebas Iklan", "Background Play", "YouTube Music Pro", "Bisa Akun Sendiri"] },
-            { id: 7, name: "GEMINI AI PRO", price: 6500, features: ["Asisten AI Cerdas", "Fitur Pro Terbuka", "Respon Super Cepat", "Akses Prioritas"] },
-            { id: 8, name: "SPOTIFY PREMIUM", price: 15000, features: ["Dengar Lagu Offline", "Tanpa Iklan", "Kualitas Audio Tinggi", "Plan Individu/Family"] },
-            { id: 9, name: "IQIYI PREMIUM", price: 7000, features: ["Nonton Tanpa Iklan", "Drama Asia Eksklusif", "Full HD 1080P", "Garansi Login"] },
-            { id: 10, name: "CHATGPT PLUS", price: 6000, features: ["Akses GPT-4 Turbo", "Tanpa Limit", "Fitur Gambar DALL-E", "Proses Instan"] },
-            { id: 11, name: "VIDIO TV PREMIER", price: 2000, features: ["Nonton Liga Inggris", "Film Eksklusif", "Tanpa Iklan", "Kualitas Jernih"] },
-            { id: 12, name: "NOKOS (NOMOR KOSONG)", price: "Chat Admin", features: ["Untuk Verifikasi OTP", "Semua Negara Ready", "Harga Per Aplikasi", "Privasi Terjaga"] },
-            { id: 13, name: "PANEL PROVIDER", price: "Chat Admin", features: ["Panel Murah", "Layanan Lengkap", "Auto Masuk", "Support 24 Jam"] },
-            { id: 14, name: "SCRIPT BOT MD", price: "Chat Admin", features: ["Script Bot WA MD", "Mudah Digunakan", "No Error / Bug", "Bisa Custom Nama"] },
-            { id: 15, name: "SURXRAT VIP", price: 55000, features: ["Fitur VIP Sultan", "Akses Premium", "Sangat Eksklusif", "Garansi Full Support"] }
+            { id: 1, name: "ALIGHT MOTION PRO", price: 5000 },
+            { id: 2, name: "CAPCUT PREMIUM", price: 10000 },
+            { id: 3, name: "CANVA PRO", price: 3000 },
+            { id: 4, name: "WINK PREMIUM", price: 5000 },
+            { id: 5, name: "YOUTUBE PREMIUM", price: 5000 },
+            { id: 6, name: "VIU PREMIUM", price: 3000 },
+            { id: 7, name: "GEMINI AI PRO", price: 7000 },
+            { id: 8, name: "SPOTIFY PREMIUM", price: 15000 },
+            { id: 9, name: "IQIYI PREMIUM", price: 7000 },
+            { id: 10, name: "CHATGPT PLUS", price: 6500 },
+            { id: 11, name: "VIDIO TV PREMIER", price: 3000 },
+            { id: 12, name: "SURXRAT V5", price: 55000 },
+            { id: 13, name: "NOKOS", price: "Chat Admin" },
+            { id: 14, name: "PANEL PRYTODAKTIL", price: "Chat Admin" },
+            { id: 15, name: "SCRIPT BOT MD", price: "Chat Admin" }
         ];
 
         let cart = [];
 
         function renderProducts() {
             const list = document.getElementById('product-list');
-            list.innerHTML = products.map(p => {
-                const displayPrice = typeof p.price === 'number' ? `Rp ${p.price.toLocaleString('id-ID')}` : p.price;
-                return `
+            list.innerHTML = products.map(p => `
                 <div class="card">
-                    <div>
-                        <h3>${p.name}</h3>
-                        <span class="price">${displayPrice}</span>
-                        <ul style="list-style:none; padding:0; text-align:left; font-size:0.8rem; color:#bbb;">
-                            ${p.features.map(f => `<li>✓ ${f}</li>`).join('')}
-                        </ul>
-                    </div>
-                    <div>
-                        ${typeof p.price === 'number' ? 
-                            `<button class="btn btn-add" onclick="addToCart(${p.id})">🛒 + KERANJANG</button>` : 
-                            `<button class="btn btn-add" style="background:#fff;" onclick="directWA('${p.name}')">📱 TANYA HARGA</button>`
-                        }
-                        <button class="btn btn-wa" onclick="directWA('${p.name}')">📱 TANYA ADMIN</button>
-                    </div>
+                    <h3>${p.name}</h3>
+                    <span class="price">${typeof p.price === 'number' ? 'Rp ' + p.price.toLocaleString() : p.price}</span>
+                    ${typeof p.price === 'number' ? `<button class="btn btn-add" onclick="addToCart(${p.id})">🛒 + KERANJANG</button>` : ''}
+                    <button class="btn btn-wa" onclick="directWA('${p.name}')">📱 TANYA ADMIN</button>
                 </div>
-            `}).join('');
-        }
-
-        function filterProducts() {
-            const query = document.getElementById('search').value.toLowerCase();
-            const cards = document.getElementsByClassName('card');
-            Array.from(cards).forEach(card => {
-                const title = card.querySelector('h3').innerText.toLowerCase();
-                card.style.display = title.includes(query) ? 'flex' : 'none';
-            });
+            `).join('');
         }
 
         function addToCart(id) {
             const p = products.find(p => p.id === id);
             cart.push(p);
             updateCart();
+            toggleCart();
         }
 
         function updateCart() {
-            const cartItems = document.getElementById('cart-items');
-            const cartCount = document.getElementById('cart-count');
-            const cartTotal = document.getElementById('cart-total');
-            cartCount.innerText = cart.length;
+            document.getElementById('cart-count').innerText = cart.length;
             let total = 0;
-            cartItems.innerHTML = cart.map((item, index) => {
+            document.getElementById('cart-items').innerHTML = cart.map((item, index) => {
                 if(typeof item.price === 'number') total += item.price;
-                return `<div class="cart-item"><span>${item.name}</span><span>${typeof item.price === 'number' ? 'Rp '+item.price.toLocaleString() : 'Chat'} <span onclick="removeItem(${index})" style="color:red; cursor:pointer; margin-left:10px;">[X]</span></span></div>`;
+                return `<div class="cart-item"><span>${item.name}</span><span>Rp ${item.price.toLocaleString()}</span></div>`;
             }).join('');
-            cartTotal.innerText = "Rp " + total.toLocaleString('id-ID');
+            document.getElementById('cart-total').innerText = "Rp " + total.toLocaleString();
         }
 
-        function removeItem(index) { cart.splice(index, 1); updateCart(); }
         function toggleCart() { document.getElementById('sidebar').classList.toggle('active'); }
 
+        async function checkoutSekalipay() {
+            if (cart.length === 0) return alert("Keranjang kosong!");
+            const total = cart.reduce((a, b) => a + (typeof b.price === 'number' ? b.price : 0), 0);
+            const names = cart.map(i => i.name).join(', ');
+
+            alert("Menghubungkan ke sistem pembayaran...");
+            try {
+                const response = await fetch(`${REPLIT_API_URL}/api/create-payment`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ amount: total, product_name: names })
+                });
+                const data = await response.json();
+                if (data.checkout_url) {
+                    window.location.href = data.checkout_url;
+                } else {
+                    alert("Gagal membuat link. Gunakan WhatsApp.");
+                }
+            } catch (err) {
+                alert("Server Replit belum aktif. Klik 'Run' di Replit.");
+            }
+        }
+
         function checkoutWA() {
-            if (cart.length === 0) return alert("Keranjang masih kosong!");
-            let list = cart.map(i => `- ${i.name}`).join('%0A');
             let total = cart.reduce((a, b) => a + (typeof b.price === 'number' ? b.price : 0), 0);
-            window.open(`https://wa.me/6283185468716?text=Halo Admin Miko Store, saya mau pesan:%0A${list}%0A%0A*Total: Rp ${total.toLocaleString()}*`);
+            window.open(`https://wa.me/6283185468716?text=Halo Miko, saya mau pesan produk ini. Total: Rp ${total}`);
         }
 
         function directWA(name) {
-            window.open(`https://wa.me/6283185468716?text=Halo Admin Miko Store, saya mau tanya info dan harga ${name}`);
+            window.open(`https://wa.me/6283185468716?text=Halo Miko, mau tanya ${name}`);
         }
 
         renderProducts();
